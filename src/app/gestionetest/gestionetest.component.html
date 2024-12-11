@@ -1,0 +1,103 @@
+<div class="page-container-assegnazione-test">
+
+    <div  style="color:#3D383C;">
+
+        <div class="container-search">
+            <div style="margin-top:19px;float:left;margin-left:2%;width:35%;">
+              <!--  <input type="text" placeholder="Nome" class="input-text-home" name="nome" [(ngModel)]="search.nome"/>-->
+              <!--  <input type="text" placeholder="Cognome" class="input-text-home" name="cognome" [(ngModel)]="search.cognome"/>-->
+                <input type="text" placeholder="Email / Username" class="input-text-home" name="username" [(ngModel)]="search.username"/>
+                <input type="text" placeholder="Profilo" class="input-text-home" name="profilo" [(ngModel)]="search.profilo"/>
+                <button style="background-image: url('./assets/search.png');background-repeat: no-repeat;" class="btn btn-default btn-azioni-home"  (click)="searchUtente();" ></button>
+            </div>
+            <div>
+            <div style="margin-top:19px;float:right;margin-right:1vw;">
+                    <button  class="btn btn-default btn-back" style="background-color: white;color:red;" [disabled]="!utenteSelezionato" (click)="assegnaAssegnabili();" >SELEZIONA  MATERIALE</button>
+                </div>
+            <div style="margin-top:19px;float:right;margin-right:2%;">
+                <button  class="btn btn-default btn-back" style="background-color: white;color:red;" [disabled]="!utenteSelected" (click)="assegnaQuizSelezionati();" >ASSEGNA</button>
+            </div>
+        </div>
+
+        </div>
+        
+        <div style="text-align: center;width: 30%;margin-left:2%;float:left;">
+             
+            <p style="color:#3D383C;font-size: 18px;font-weight: bold;margin-top:20px;">LISTA UTENTI</p>
+        
+            <table class="table-details-gestione">
+                <thead>
+                <tr >
+                    <th class="header-table"></th>
+                   <!-- <th class="header-table" >COGNOME</th>-->
+                    <th class="header-table">USERNAME</th>
+                 <!--   <th class="header-table">EMAIL / USERNAME</th> -->
+                 <th class="header-table">PROFILO</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let u of listaUtenti; let i = index; let odd = odd" [class.odd]="odd" style="font-size: 14px;">
+                    <td style="font-weight: bold;"> <input type="radio" name="select" (click)="getListaTestByIdUtente(u.idUtente)" /> </td>
+                   <!--<td style="font-weight: bold;">{{u.cognomeUtente}}</td>-->
+                    <td style="font-weight: bold;">{{u.emailUtente}}</td>
+                   <!-- <td style="font-weight: bold;">{{u.emailUtente}}</td> -->
+                <td style="font-weight: bold;">{{u.profiloUtente}}</td>
+                </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+        
+          <div style="text-align: center;width: 64%;margin-left:2%;float:left;">
+             
+            <p style="color:#3D383C;font-size: 18px;font-weight: bold;margin-top:20px;">LISTA TEST / ESAMI DISPONIBILI</p>
+        
+            <table class="table-details-gestione">
+                <thead>
+                <tr >
+                    <th class="header-table"></th>
+                    <th class="header-table">DESCRIZIONE</th>
+                    <th class="header-table">DURATA</th>
+                    <th class="header-table">TIPO</th>
+                    <th class="header-table">DATA ULT. ASS.</th>
+                    <th class="header-table">ORDINE</th>
+                    <th class="header-table">RISULTATI</th>
+                    <th class="header-table">STUDIO</th>
+                 <!--   <th class="header-table">EMAIL / USERNAME</th> -->
+                <!--  <th class="header-table">PROFILO</th>-->
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let u of listaQuiz; let i = index; let odd = odd" [class.odd]="odd" style="font-size: 14px;">
+                    <td style="font-weight: bold;"> <input type="checkbox" name="select" [(ngModel)]="u.selezionato" (click)="aggiungiQuiz(u)" /> </td>
+                    <td style="font-weight: bold;">{{u.nomeQuiz}} </td>
+                    <td style="font-weight: bold;">{{u.durata}} minuti</td>
+                    <td style="font-weight: bold;">{{u.tipoQuiz == 'E' ? 'ESAME' : 'TEST'}}</td>
+                    <td style="font-weight: bold;">{{u.dataUltimaAssegnazione}}</td> 
+                    <td style="width:40px;font-weight: bold;"><input type="number" maxlength="2" min="-1"  class="input-text-table" [(ngModel)]="u.ordine" name="ordine" /></td> 
+                     <td style="width:40px;font-weight: bold;"><input type="number"  min="0" max="2" class="input-text-table" [(ngModel)]="u.risultati" name="risultati" /></td> 
+                     <td style="width:40px;font-weight: bold;"><input type="checkbox"   class="input-text-table" [(ngModel)]="u.studio" name="studio" /></td> 
+                   <!-- <td style="font-weight: bold;">{{u.emailUtente}}</td> -->
+                <!-- <td style="font-weight: bold;">{{u.profiloUtente}}</td>-->
+                </tr>
+                </tbody>
+
+            </table>
+
+            <p style="color: green;font-size: 16px;font-weight: bold;" 
+                *ngIf="result == 'OK'">
+                CI&Oacute; CHE HAI SELEZIONATO &Eacute; STATO ASSEGNATO CORRETTAMENTE
+            </p>
+
+            <p style="color: red;font-size: 16px;font-weight: bold;" 
+                 *ngIf="result == 'KO'">
+                 ERRORE NELL'ASSEGNAZIONE DEI TEST
+            </p>
+
+        </div>
+
+    </div>
+
+</div> 
+

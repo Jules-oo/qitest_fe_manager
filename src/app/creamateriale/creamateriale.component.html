@@ -1,0 +1,52 @@
+<div id="container">
+  <form>
+    <table>
+      <tr>
+        <td>
+          <label for="urlMateriale">URL MATERIALE</label>
+        </td>
+        <td>
+          <input
+            type="text"
+            name="urlMateriale"
+            size="100"
+            [(ngModel)]="nuovoMat.materialeTestuale"
+            required
+          />
+          <br />
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <label for="titolo">TITOLO: </label>
+        </td>
+        <td>
+          <input
+            type="text"
+            name="titolo"
+            size="100"
+            [(ngModel)]="nuovoMat.titolo"
+            required
+          />
+          <br />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="descrizione">DESCRIZIONE</label>
+        </td>
+        <td>
+          <textarea
+            [(ngModel)]="nuovoMat.descrizione"
+            name="textArea"
+            rows="5"
+            cols="100"
+          ></textarea>
+          <br />
+        </td>
+      </tr>
+    </table>
+    <button (click)="creaMateriale()">Crea</button>
+  </form>
+</div>

@@ -1,0 +1,32 @@
+app-lista-materiale{
+    margin-top: 5vh;
+}
+
+b{
+    text-align: center;
+}
+
+#selezionaTest{
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 20px;  
+    background-color: #DA0E26;
+    margin-top: 68px;
+}
+
+h3{
+    color: white;
+}
+
+#selectMenu{
+    margin-bottom: 7px;
+    margin-top: 5px;
+}
+
+.titoloBlocco{
+    display:block;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 2vh;
+}

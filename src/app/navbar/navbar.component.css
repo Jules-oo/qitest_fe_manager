@@ -1,0 +1,62 @@
+.active {
+  color: black;
+}
+.navbar-toggler {
+  border: solid 1px silver;
+  border-radius: 2px;
+  color: #eee;
+}
+
+.navbar-web {
+  position: fixed; /* Fissa la navbar in cima allo schermo */
+  top: 0;
+  left: 0;
+  width: 100%; /* Occupa tutta la larghezza dello schermo */
+  height: 48px;
+  background-color: #333; /* Colore di sfondo della navbar */
+  color: white; /* Colore del testo */
+  padding: 10px 20px; /* Spaziatura interna */
+  z-index: 1000; /* Assicura che sia sopra altri elementi */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Aggiunge un'ombra leggera */
+}
+
+.navbar-web .container {
+  display: flex; /* Usa il layout flexbox */
+  justify-content: space-between; /* Distribuisce gli elementi */
+  align-items: center; /* Centra gli elementi verticalmente */
+}
+
+.navbar-web .heading-brand {
+  margin: 0; /* Rimuove margini */
+  font-size: 18px; /* Dimensione del logo/testo */
+  font-weight: bold; /* Stile del logo/testo */
+  color: white;
+}
+
+.navbar-web ul {
+  list-style: none; /* Rimuove i punti elenco */
+  margin: 0;
+  padding: 0;
+  display: flex; /* Disposizione orizzontale */
+  gap: 15px; /* Spaziatura tra gli elementi */
+}
+
+.navbar-web .nav-item {
+  display: inline-block; /* Disposizione in linea */
+}
+
+.navbar-web .nav-link-web {
+  color: white; /* Colore del link */
+  text-decoration: none; /* Rimuove la sottolineatura */
+  padding: 5px 10px; /* Spaziatura interna */
+  transition: color 0.3s; /* Effetto di transizione sul colore */
+}
+
+.navbar-web .nav-link-web:hover {
+  color: #ffa500; /* Cambia colore al passaggio del mouse */
+}
+
+body {
+  margin: 0; /* Rimuove margini predefiniti del body */
+  padding-top: 60px; /* Aggiunge spazio sotto la navbar per evitare sovrapposizioni */
+}

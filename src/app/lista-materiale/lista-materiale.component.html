@@ -1,0 +1,38 @@
+<div id="container" *ngFor="let a of listaMaterialeTest">
+    <form>
+  
+      <table>
+        <tr>
+          <td>
+            <label for="urlMateriale">URL MATERIALE</label>
+          </td>
+          <td>
+            <input type="text" name="urlMateriale" size="100" [(ngModel)]="a.materialeTestuale" />
+            <br />
+          </td>
+        </tr>
+  
+        <tr>
+          <td>
+            <label for="titolo">TITOLO: </label>
+          </td>
+          <td>
+            <input type="text" name="titolo" size="100" [(ngModel)]="a.titolo" />
+            <br />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="descrizione">DESCRIZIONE</label>
+          </td>
+          <td>
+            <textarea [(ngModel)]="a.descrizione" name="textArea" rows="5" cols="100"></textarea>
+            <br />
+          </td>
+        </tr>
+      </table>
+      <button (click)="eliminaMateriale(a)">Elimina</button>
+      <button (click)="modificaMateriale(a)">Modifica</button>
+  
+    </form>
+  </div>

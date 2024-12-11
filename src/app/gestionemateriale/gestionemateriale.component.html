@@ -1,0 +1,16 @@
+
+
+<div id="selezionaTest">
+    <h3>Seleziona l'argomento per visualizzare il materiale presente, crearne di nuovi o eliminare o modificare quello presente.</h3>
+    <select id="selectMenu" [(ngModel)]="idArgomentoScelto" (change)="caricaMaterialeTestSelezionato()">
+      <option *ngFor="let test of tests" [ngValue]="test.idTest">{{test.descrizioneTest}}</option>
+    </select>
+  </div>
+  <div *ngIf="nuovoMateriale">
+    <h4 class="titoloBlocco">CREA NUOVO MATERIALE</h4>
+    <app-creamateriale [nuovoMat]="materialeNuovo" [idTest]="idArgomentoScelto" (creato)="creazioneAvvenuta($event)"></app-creamateriale>
+  </div>
+  <div *ngIf="materialePresente">
+    <h4 class="titoloBlocco">GESTISCI IL MATERIALE PRESENTE</h4>
+    <app-lista-materiale [listaMaterialeTest]="materiale" (aggiornato)="modificaAvvenuta($event)" (eliminato)="eliminazioneAvvenuta($event)"></app-lista-materiale>
+  </div>

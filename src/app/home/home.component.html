@@ -1,0 +1,219 @@
+<div class="page-container-riepilogo">
+
+    <div *ngIf="showUserList && !showResultTest" style="text-align: center;color:#3D383C;">
+
+        <div class="container-search">
+            <div style="margin-top:19px;">
+                <input type="text" placeholder="Nome" class="input-text-home" name="nome" [(ngModel)]="search.nome" />
+                <input type="text" placeholder="Cognome" class="input-text-home" name="cognome" [(ngModel)]="search.cognome" />
+                <input type="text" placeholder="Email / Username" class="input-text-home" name="username" [(ngModel)]="search.username" />
+                <input type="text" placeholder="Profilo" class="input-text-home" name="profilo" [(ngModel)]="search.profilo" />
+                <button style="background-image: url('./assets/search.png');background-repeat: no-repeat;" class="btn btn-default btn-azioni-home"
+                    (click)="searchUtente();"></button>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <p style="color:#3D383C;font-size: 18px;font-weight: bold;margin-top:20px;">LISTA UTENTI</p>
+        </div>
+
+        <table class="table-details">
+            <thead>
+                <tr>
+                    <th class="header-table">NOME</th>
+                    <th class="header-table">COGNOME</th>
+                    <th class="header-table">EMAIL / USERNAME</th>
+                    <th class="header-table">PROFILO</th>
+                    <th class="header-table">AZIONI</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let u of listaUtenti; let i = index; let odd = odd" [class.odd]="odd" style="font-size: 14px;">
+                    <td style="font-weight: bold;">{{u.nomeUtente}} </td>
+                    <td style="font-weight: bold;">{{u.cognomeUtente}}</td>
+                    <td style="font-weight: bold;">{{u.emailUtente}}</td>
+                    <td style="font-weight: bold;">{{u.profiloUtente}}</td>
+                    <td style="width: 12vw;font-weight: bold;">
+                        <button style="background-image: url('./assets/exam.png')" title="Dettaglio Utente" class="btn btn-default btn-azioni-home" (click)="getDettaglioUtente(u.idUtente);"></button>
+                        <button style="clear:both;background-image: url('./assets/forward-arrow.png')" title="Vai ai test" class="btn btn-default btn-azioni-home" (click)="goToUserTest(u.idUtente);" ></button>
+                        <button style="clear:both;background-image: url('./assets/delete.png')" title="Elimina Utente" class="btn btn-default btn-azioni-home" (click)="eliminaUtente(u.idUtente);"></button>
+
+                    </td>
+
+                </tr>
+            </tbody>
+
+        </table>
+
+
+    </div>
+
+    <div *ngIf="!showUserList && !showResultTest" style="text-align: center;color:#3D383C;">
+
+        <div class="container-search">
+            <div style="float:left;margin-top:8px;margin-left:2.5%;">
+                <button style="background-image: url('./assets/previous.png');background-repeat: no-repeat;" class="btn btn-default btn-back-home"
+                    *ngIf="showDettaglioEsame" (click)="goBackToTest();"></button>
+                <button style="background-image: url('./assets/previous.png');background-repeat: no-repeat;" class="btn btn-default btn-back-home"
+                    *ngIf="!showDettaglioEsame" (click)="goBackToUser();"></button>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <p style="color:#3D383C;font-size: 18px;font-weight: bold;margin-top:20px;">LISTA TEST ED ESAMI DI : {{nomeCognome}}</p>
+        </div>
+
+        <div *ngIf="!showDettaglioEsame">
+
+            <table class="table-details">
+                <thead>
+                    <tr>
+                        <th class="header-table">QUIZ</th>
+                        <th class="header-table">TIPO</th>
+                        <th class="header-table">DURATA</th>
+                        <th class="header-table">STATO</th>
+                        <th class="header-table">DATA INIZIO</th>
+                        <th class="header-table">DATA FINE</th>
+                        <th class="header-table">DOMANDE TOTALI</th>
+                        <th class="header-table">RISPOSTE CORRETTE</th>
+                        <th class="header-table">AZIONI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let quiz of listaQuiz; let j = index; let odd = odd" [class.odd]="odd" style="font-size: 14px;">
+                        <td style="font-weight: bold;">{{quiz.nomeQuiz}} </td>
+                        <td style="font-weight: bold;">{{quiz.flagStudio ? 'STUDIO' : quiz.tipoQuiz == 'E' ? 'ESAME' : 'TEST'}}</td>
+                        <td style="font-weight: bold;">{{quiz.durata}} minuti</td>
+                        <td style="font-weight: bold;">{{quiz.eseguito == 'S' ? 'COMPLETATO' : quiz.eseguito == 'W' ? 'IN ESECUZIONE' : 'ASSEGNATO'}}</td>
+                        <td style="font-weight: bold;">{{quiz.dataInizioQuiz}}</td>
+                        <td style="font-weight: bold;">{{quiz.dataFineQuiz}}</td>
+                        <td style="font-weight: bold;">{{quiz.risposteTotali}}</td>
+                        <td style="font-weight: bold;">{{quiz.risposteCorrette}}</td>
+                        <td style="width: 120px;font-weight: bold;">
+                            <button style="float:left;background-image: url('./assets/exam.png')" class="btn btn-default btn-azioni-home" *ngIf=" quiz.tipoQuiz == 'E'"
+                                (click)="mostraTestByIdEsame(quiz.idQuiz)"></button>
+                            <button style="float:left;background-image: url('./assets/bar-chart.png')" class="btn btn-default btn-azioni-home" *ngIf="quiz.eseguito == 'S' && quiz.tipoQuiz == 'T'"
+                                (click)="mostraRisultatiByIdTest(quiz.idQuiz,quiz.idUtenteQuiz, usernameUtente)"></button>
+                            <button style="clear:both;background-image: url('./assets/delete.png')" class="btn btn-default btn-azioni-home" *ngIf="quiz.eseguito != 'W' && quiz.eseguito != 'S'"
+                                (click)="eliminaTestUtente(quiz.idQuiz);"></button>
+                            <!-- <button class="btn btn-default btn-back" *ngIf="quiz.eseguito == 'S' || quiz.tipoQuiz == 'E'" (click)="quiz.tipoQuiz == 'E' ? mostraTestByIdEsame(quiz.idQuiz) : mostraRisultatiByIdTest(quiz.idQuiz, usernameUtente)">{{quiz.tipoQuiz == 'E' ? 'MOSTRA TEST' : 'MOSTRA RISULTATI'}}</button>-->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div *ngIf="showDettaglioEsame">
+
+            <table class="table-details">
+                <thead>
+                    <tr>
+                        <th class="header-table">QUIZ</th>
+                        <th class="header-table">TIPO</th>
+                        <th class="header-table">DURATA</th>
+                        <th class="header-table">STATO</th>
+                        <th class="header-table">DATA INIZIO</th>
+                        <th class="header-table">DATA FINE</th>
+                        <th class="header-table">DOMANDE TOTALI</th>
+                        <th class="header-table">RISPOSTE CORRETTE</th>
+                        <th class="header-table">AZIONI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let quiz of listaQuizPerUtenteDettaglioEsame; let j = index; let odd = odd" [class.odd]="odd" style="font-size: 14px;">
+                        <td style="font-weight: bold;">{{quiz.nomeQuiz}} </td>
+                        <td style="font-weight: bold;">{{quiz.tipoQuiz == 'E' ? 'ESAME' : 'TEST'}}</td>
+                        <td style="font-weight: bold;">{{quiz.durata}} minuti</td>
+                        <td style="font-weight: bold;">{{quiz.eseguito == 'S' ? 'COMPLETATO' : quiz.eseguito == 'W' ? 'IN ESECUZIONE' : 'ASSEGNATO'}}</td>
+                        <td style="font-weight: bold;">{{quiz.dataInizioQuiz}}</td>
+                        <td style="font-weight: bold;">{{quiz.dataFineQuiz}}</td>
+                        <td style="font-weight: bold;">{{quiz.risposteTotali}}</td>
+                        <td style="font-weight: bold;">{{quiz.risposteCorrette}}</td>
+                        <td style="width: 120px;font-weight: bold;">
+                            <button style="float:left;background-image: url('./assets/bar-chart.png')" class="btn btn-default btn-azioni-home" *ngIf="quiz.eseguito == 'S' && quiz.tipoQuiz == 'T'"
+                                (click)="mostraRisultatiByIdTest(quiz.idQuiz,quiz.idUtenteQuiz, usernameUtente)"></button>
+                            <button style="clear:both;background-image: url('./assets/delete.png')" *ngIf="quiz.eseguito != 'W' && quiz.eseguito != 'S'"
+                                class="btn btn-default btn-azioni-home" (click)="eliminaTestUtente(quiz.idQuiz);"></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+    <div *ngIf="showResultTest">
+
+        <div class="result-quiz-container">
+
+            <div class="container-search">
+                <div style="float:left;margin-top:8px;margin-left:2.5%;">
+                    <button style="background-image: url('./assets/previous.png');background-repeat: no-repeat;" class="btn btn-default btn-back-home"
+                        (click)="goBackToTestDettaglio();"></button>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <p class="result-quiz-title">RISULTATI DEL TEST {{risultatiTest.name.toUpperCase()}} </p>
+            </div>
+
+            <div class="col-md-12" style="margin-top:15px;margin-bottom:30px;">
+
+                <div style="font-weight: bold;">
+
+                    <div class="col-md-offset-2 col-md-8 col-md-offset-2">
+                        <div class="col-md-6 result-quiz-text">
+                            <p>INIZIO TEST</p>
+                            <p class="result-quiz-esito">{{risultatiTest.inizioTest}}</p>
+                        </div>
+                        <div class="col-md-6 result-quiz-text">
+                            <p>FINE TEST</p>
+                            <p class="result-quiz-esito">{{risultatiTest.fineTest}}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-offset-2 col-md-8 col-md-offset-2">
+                        <div class="col-md-6 result-quiz-text">
+                            <p>TOTALE DOMANDE</p>
+                            <p class="result-quiz-esito">{{risultatiTest.totDomande}}</p>
+                        </div>
+                        <div class="col-md-6 result-quiz-text">
+                            <p>RISPOSTE CORRETTE</p>
+                            <p class="result-quiz-esito">{{risultatiTest.totCorrette}}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-offset-2 col-md-8 col-md-offset-2">
+                        <div class="col-md-offset-2 col-md-8 result-quiz-text">
+                            <p>PERCENTUALE SUCCESSO</p>
+                            <p class="result-quiz-esito">{{risultatiTest.percentualeSuccesso}}%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="risposteDate" class="col-md-offset-1 col-md-10 col-md-offset-1">
+                    <div style="text-align: center;">
+                        <p style="color:#3D383C;font-weight: bold;font-size: 22px;">RISPOSTE</p>
+                    </div>
+                    <div *ngFor="let question of risultatiTest.questions; let index = index" class="result-quiz-risposte">
+                        <div>
+                            <h4 style="font-weight: bold;">{{index + 1}}. {{question.name}}</h4>
+                            <img style="max-height:300px  ;height: auto;width: auto" src={{question.img}}>
+                            <div class="row">
+                                <div class="col-md-6 result-quiz-text" *ngFor="let Option of question.options">
+                                    <input class="result-quiz-esito" id="{{Option.id}}" type="checkbox" disabled="disabled" [(ngModel)]="Option.selected" /> {{ Option.name}}
+                                </div>
+                            </div>
+                            <div class="alert {{ isCorrect(question) == 'CORRETTA'? 'alert-result-risposte-corrette': 'alert-result-risposte-errate'}}">RISPOSTA {{isCorrect(question)}}.
+                                <div *ngIf="isCorrect(question) == 'ERRATA'">La risposta corretta era {{rispostaCorretta(question)}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>

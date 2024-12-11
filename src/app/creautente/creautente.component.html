@@ -1,0 +1,56 @@
+<div class="page-container-assegnazione-test">
+    <div class="container-search">
+  
+      <div style="margin-top:19px;float:right;margin-right:2%;">
+        <button class="btn btn-default btn-back" style="background-color: white;color:red;" (click)="salvaUtente();">SALVA UTENTE</button>
+      </div>
+    </div>
+  
+   
+  
+    <div id="panelCrea">
+        <p style="font-weight: 800;">Compila i seguenti campi per creare un utente di tipo USER: </p>
+      <form  class="formCreaUtente">
+        <table class="table-creation" cellspacing="0" cellpadding="0">
+  
+  
+          <tr>
+            <td>
+              <label for="nome">Nome:</label>
+            </td>
+            <td>
+              <input class="input-text-short" type="text" name="nome" [(ngModel)]="nome" />
+            </td>
+          </tr>
+  
+          <tr>
+            <td>
+              <label for="cognome">Cognome:</label>
+            </td>
+            <td>
+              <input class="input-text-short" type="text" name="cognome" [(ngModel)]="cognome" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="username">Username:</label>
+            </td>
+            <td>
+              <input class="input-text-short" type="text" name="username" required [(ngModel)]="email" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="password">Password:</label>
+            </td>
+            <td>
+              <input class="input-text-short" type="password" name="password" required [(ngModel)]="password" />
+            </td>
+          </tr>
+  
+  
+        </table>
+      </form>
+    </div>
+  
+  </div>

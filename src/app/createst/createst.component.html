@@ -1,0 +1,205 @@
+<div class="page-container-crea-test">
+
+    <div class="container-search">
+        <div style="margin-top:19px;float:left;margin-left:2%;width:35%;">
+            <!-- <input type="text" placeholder="Nome" class="input-text-home" name="nome" />
+            <input type="text" placeholder="Cognome" class="input-text-home" name="cognome" />
+            <input type="text" placeholder="Email / Username" class="input-text-home" name="username" />
+            <input type="text" placeholder="Profilo" class="input-text-home" name="profilo" />
+            <button style="background-image: url('./assets/search.png');background-repeat: no-repeat;" class="btn btn-default btn-azioni-home"
+                (click)="searchUtente();"></button>-->
+            <button class="btn btn-default btn-back" style="background-color: white;color:red;" (click)="resetTest();">RESET TEST</button>
+        </div>
+        <div style="margin-top:19px;float:right;margin-right:2%;">
+            <button class="btn btn-default btn-back" style="background-color: white;color:red;" (click)="salvaTest();">SALVA TEST</button>
+        </div>
+
+    </div>
+
+    <div class="test-container" *ngIf="!showResult">
+
+   
+        <p style="color:#3D383C;font-size: 18px;font-weight: bold;margin-top:20px;text-align: center;">
+            CREA TEST
+        </p>
+
+        <div style="margin-bottom: 20px;text-align: center;padding: 20px;  background-color: #DA0E26;">
+            <input type="text" required="true" placeholder="Titolo" style="width: 400px;" class="input-text-crea-test" name="titolo" [(ngModel)]="quizTitle"
+            />
+            <input type="number" required="true" placeholder="Durata" style="width: 100px;" class="input-text-crea-test" name="durata" [(ngModel)]="quizTime"
+            />
+        </div>
+
+        <div class="test-block" *ngFor="let q of listaQuestion; let i = index">
+            <div *ngIf="quizTitle != undefined && quizTitle != null && quizTitle != ''">
+            <div>
+
+                <div class="question-block">
+
+                    <p style="color:#3D383C;font-size: 18px;font-weight: bold;margin-top:20px;text-align: center;">
+                        DOMANDA n. {{(i+1)}}
+                    </p>
+
+
+                    <div style="text-align: center;margin-bottom: 10px;">
+
+                        <input type="radio" checked="true" name="type-question-{{i}}" (click)="selectTipoRisposta(i,1)" />
+                        <label style="color:#3D383C;margin-right: 10px;">Aperta</label>
+
+                        <input type="radio" name="type-question-{{i}}" (click)="selectTipoRisposta(i,2)" />
+                        <label style="color:#3D383C;margin-right: 10px;">Multipla</label>
+
+                        <input type="radio" name="type-question-{{i}}" (click)="selectTipoRisposta(i,5)" />
+                        <label style="color:#3D383C;margin-right: 10px;">Multipla Esclusiva</label>
+
+                    </div>
+
+                    <input type="text" class="input-text-home" placeholder="Testo Domanda" style="width: 100%;margin-bottom:10px;" [(ngModel)]="q.name"
+                    />
+
+                 <!--<button class="btn btn-default btn-carica-img" (change)="fileChange($event)">
+                            CARICA IMMAGINE
+                </button>-->
+
+                 <!--<input type="file" ng2FileSelect [uploader]="uploader" />-->
+                <input type="file" class="btn-carica-img" style="width: 100%;margin-bottom:10px;" (change)="fileChangeDomanda($event,i)" placeholder="Upload file" accept=".pdf,.doc,.docx">
+
+
+                </div>
+
+                <div class="answer-block">
+
+                    <!-- RISPOSTA APERTA -->
+                    <div *ngIf="q.questionTypeId ===  1">
+                        <p style="color:#3D383C;font-size: 18px;font-weight: bold;margin-top:20px;text-align: center;">
+                            RISPOSTE
+                        </p>
+
+                        <div *ngFor="let a of q.options; let j = index">
+                           
+                            <div>
+                                <input type="text" class="input-text-home" placeholder="Opzione risposta" style="width:65%;margin-bottom: 10px;margin-right: 10px;float:left;"
+                                [(ngModel)]="a.name" />
+
+                                 <input type="file" class="btn-carica-img-option" (change)="fileChangeRisposta($event,i,j)" placeholder="Upload file" accept=".pdf,.doc,.docx">
+                            </div>
+
+                            <div style="clear: both;"></div>
+
+                            <div style="text-align: center;margin-bottom: 20px;margin-top: 10px;" *ngIf="q.options.length == (j+1)">
+                                <button class="btn btn-default btn-add-question" (click)="addOption(i);">
+                                AGGIUNGI RISPOSTA 
+                                </button>
+                                <button class="btn btn-default btn-add-question" (click)="removeOption(i,j);">
+                                RIMUOVI RISPOSTA 
+                                </button>
+                            </div>
+
+                        </div>
+                   
+                    </div>
+
+                    <!-- RISPOSTA MULTIPLA -->
+                    <div *ngIf="q.questionTypeId === 2">
+
+                        <p style="color:#3D383C;font-size: 18px;font-weight: bold;margin-top:20px;text-align: center;">
+                            RISPOSTE
+                        </p>
+
+                        <div *ngFor="let a of q.options; let j = index">
+                            <div>
+                                <input type="text" class="input-text-home" placeholder="Opzione risposta" style="width:65%;margin-bottom: 10px;margin-right: 10px;float:left;"
+                                    [(ngModel)]="a.name" />
+
+                                <div style="float:left;">
+                                    <input type="checkbox" name="type-question" (click)="isCorretta(i,j)" />
+                                    <label style="color:#3D383C;margin-right: 10px;">Corretta</label>
+                                </div>
+
+                                <input type="file" class="btn-carica-img-option" (change)="fileChangeRisposta($event,i,j)" placeholder="Upload file" accept=".pdf,.doc,.docx">
+                            </div>
+
+                            <div style="clear: both;"></div>
+
+                            <div style="text-align: center;margin-bottom: 20px;margin-top: 10px;"  *ngIf="q.options.length == (j+1)">
+                                <button class="btn btn-default btn-add-question" (click)="addOption(i);">
+                                AGGIUNGI RISPOSTA 
+                                </button>
+                                <button class="btn btn-default btn-add-question" (click)="removeOption(i,j);">
+                                RIMUOVI RISPOSTA 
+                                </button>
+                            </div>
+
+                        </div>
+               
+                    </div>
+
+                    <!-- RISPOSTA MULTIPLA ESCLUSIVA -->
+                    <div *ngIf="q.questionTypeId === 5">
+                        <p style="color:#3D383C;font-size: 18px;font-weight: bold;margin-top:20px;text-align: center;">
+                            RISPOSTE
+                        </p>
+
+                        <div *ngFor="let a of q.options; let j = index">
+
+                            <div>
+                                <input type="text" class="input-text-home" placeholder="Opzione risposta" style="width:65%;margin-bottom: 10px;margin-right: 10px;float:left;"
+                                    [(ngModel)]="a.name" />
+                                
+                                <div style="float:left;">
+                                    <input type="radio" name="type-option-{{i}}" (click)="isCorretta(i,j)" />
+                                    <label style="color:#3D383C;margin-right: 10px;">Corretta</label>
+                                </div>
+
+                                <input type="file" class="btn-carica-img-option" (change)="fileChangeRisposta($event,i,j)" placeholder="Upload file" accept=".pdf,.doc,.docx">
+                            </div>
+
+                            <div style="clear: both;"></div>
+
+                            <div style="text-align: center;margin-bottom: 20px;margin-top: 10px;"  *ngIf="q.options.length == (j+1)">
+                                <button class="btn btn-default btn-add-question" (click)="addOption(i);">
+                                AGGIUNGI RISPOSTA 
+                                </button>
+                                <button class="btn btn-default btn-add-question" (click)="removeOption(i,j);">
+                                RIMUOVI RISPOSTA 
+                                </button>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+
+                </div>
+
+                <div style="clear: both"></div>
+
+            </div>
+
+            <div style="text-align: center;margin-bottom: 20px;margin-top: 10px;">
+                <button class="btn btn-default btn-add-question" (click)="addQuestion();" *ngIf="countLenght === i">
+                        AGGIUNGI DOMANDA 
+                </button>
+                <button class="btn btn-default btn-add-question" (click)="removeQuestion(i);" *ngIf="countLenght > 0">
+                        RIMUOVI DOMANDA 
+                </button>
+            </div>
+
+             </div>
+
+        </div>
+    </div>
+
+    <div class="test-container" *ngIf="showResult">
+
+        <div style="text-align: center;">
+            <p *ngIf="this.result == 'OK'" style="color:green;font-size: 18px;font-weight: bold;margin-top:20px;">{{this.message}}</p>
+
+            <p *ngIf="this.result == 'KO'" style="color:red;font-size: 18px;font-weight: bold;margin-top:20px;">{{this.message}}</p>
+
+            <button class="btn btn-default btn-add-question" (click)="newTest()">
+                        CREA NUOVO TEST
+            </button>
+        </div>
+    </div>
+
+</div>
