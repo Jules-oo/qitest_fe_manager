@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';  
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';  
 import {environment } from '../../environments/environment';
 @Injectable()
 export class AuthenticationService {
@@ -12,6 +12,7 @@ export class AuthenticationService {
   public numeroEsami!: number;
   public test: any;
   public headers = new HttpHeaders().set('Authorization', "Bearer " + this.token);
+  public isAuthenticated: boolean | undefined;
 
   constructor(private http: HttpClient) {
     // set token if saved in session storage
@@ -58,26 +59,43 @@ export class AuthenticationService {
     );
   }*/
   
-  login(username: string, password: string): Observable<boolean> {
-    this.user = username;
-    console.log("Login");
-    return this.http.post<any>(environment.baseUrl + '/api/auth/admin-login', { username: username, password: password }).pipe(
-      map(response => {
-        console.log(response);
-        const token = response?.token;
-        if (token) {
-          this.token = token;
-          // Store username and jwt token in session storage
-          sessionStorage.setItem('currentUser', JSON.stringify({ username: username, token: token }));
-          this.headers = new HttpHeaders().set('Authorization', "Bearer " + this.token);
-          return true;
-        } else {
-          return false;
-        }
-      })
-    );
+    login(username: string, password: string): Observable<boolean> {
+      console.log("Tentativo di login");
+      return this.http.post<any>(`${environment.baseUrl}/api/auth/admin-login`, { username, password }).pipe(
+          map(response => {
+              console.log("Risposta del server:", response);
+              
+              // Corretto per leggere il token dalla chiave 'jwt'
+              const token = response?.jwt;
+  
+              if (token) {
+                  this.token = token;
+  
+                  // Salva username e token nel session storage
+                  sessionStorage.setItem('currentUser', JSON.stringify({ username, token }));
+  
+                  // Imposta l'header di autorizzazione per le richieste future
+                  this.headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+                  
+                  // Aggiorna lo stato dell'autenticazione
+                  this.isAuthenticated = true;
+  
+                  return true;
+              } else {
+                  console.warn("Token non ricevuto!");
+                  this.isAuthenticated = false;
+                  return false;
+              }
+          }),
+          catchError(error => {
+              console.error("Errore durante il login:", error);
+              this.isAuthenticated = false;
+              return of(false); // Restituisce false in caso di errore
+          })
+      );
   }
 
+  
   logout(): void {
     // Clear token and remove user from session storage to log out
     this.token = '';
