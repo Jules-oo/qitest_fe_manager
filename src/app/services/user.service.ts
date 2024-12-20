@@ -11,6 +11,8 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   creaUtente(utente: User){
-    return this.http.post(environment.baseUrl + 'user/creaUtente', utente);
+    return this.http.post(environment.baseUrl + '/api/utenti', utente);
   }
+
+
 }

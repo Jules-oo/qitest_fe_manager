@@ -16,7 +16,7 @@ export class QuizService {
     .set('user', user);
     return this.http.get(environment.baseUrl + 'test/getTest', {params});
   }
-
+  // 
   getMaterialeDisponibile(idUtente: number): Observable<number[]> {
     return this.http.get<number[]>(environment.baseUrl + 'test/materialeStudio/' + idUtente);
   }

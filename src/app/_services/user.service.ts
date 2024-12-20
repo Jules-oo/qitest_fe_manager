@@ -6,27 +6,29 @@ export class UserService {
 
     constructor(private http: HttpClient) { }
     
-
+    // NEED TESTING
     getAll() {
-        return this.http.get<User[]>(`/api/users`);
+        return this.http.get<User[]>(`/api/utenti/azienda/` + JSON.parse(localStorage.getItem('currentUser') || '{}').azienda.id);
     }
 
+    // LINED UP
     getById(id: number) {
-        return this.http.get(`/api/users/` + id);
+        return this.http.get(`/api/utenti/` + id);
     }
 
+    // NOT EXISTING IN BACKEND
     create(user: User) {
-        return this.http.post(`/api/users`, user);
+        return this.http.post(`/api/utenti`, user);
     }
 
-    // NEED TESTING
+    // LINED UP
     getByUsername(username: string) {
-        return this.http.get(`/api/users/userInfo?username=` + username);
+        return this.http.get(`/api/utenti/email/` + username);
     }
 
-    // NEED TESTING
+    // LINED UP
     aggiornaUtente(user: User) {
-        return this.http.put(`/api/users/aggiornaUtente`, JSON.stringify(user));
+        return this.http.put(`/api/utenti/merge`, JSON.stringify(user));
     }
 
 }
