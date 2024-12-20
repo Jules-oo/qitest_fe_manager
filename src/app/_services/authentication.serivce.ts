@@ -61,7 +61,7 @@ export class AuthenticationService {
   login(username: string, password: string): Observable<boolean> {
     this.user = username;
     console.log("Login");
-    return this.http.post<any>(environment.baseUrl + '/restApi/loginAdmin', { username: username, password: password }).pipe(
+    return this.http.post<any>(environment.baseUrl + '/api/auth/admin-login', { username: username, password: password }).pipe(
       map(response => {
         console.log(response);
         const token = response?.token;

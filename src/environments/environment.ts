@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
-    baseUrl: 'http://localhost:8080/erogaQtest'
+    baseUrl: 'http://localhost:8080'
   };
   
