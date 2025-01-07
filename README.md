@@ -1,27 +1,10 @@
-# QiTestManagerFeNEW
+Frontend dell'applicazione manager di QITest.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.0.
+Il frontend è stato rifattorizzato per essere compatibile con una versione recente di Angular, va riallineato al nuovo backend (che è stato recentemente migrato su Spring).\
+Innanzi è richiesto far funzionare questa versione manageriale del frontend.
 
-## Development server
+TODO LIST:\
+1 - Riallineare gli endpoint del frontend con quelli del backend, avendo premura di mantenere inalterata l'operatività;\
+2 - Riordinare la vista del frontend: la migrazione ad Angular2 ha portato ad alcune 'anomalie' da un punto di vista della formattazione grafica. Avvalersi di librerie come bootstrap e angular-material è fortemente     consigliato ;\
+3 - Se lo si ritiene opportuno, qualsiasi ripulita al codice ed ulteriore separazione della logica può essere apportata, commentando in maniera esaustiva modifiche importanti.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
