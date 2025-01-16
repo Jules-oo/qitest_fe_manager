@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavbarService } from '../_services/navbar.service';
-import { AuthenticationService } from '../_services/authentication.serivce';
+import { AuthenticationService } from '../_services/authentication.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -11,9 +11,9 @@ import { HttpClient } from '@angular/common/http';
   providers: [HttpClient, AuthenticationService, NavbarService],
   imports: [FormsModule, CommonModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   model: any = {};
   loading = false;
   error = '';
@@ -24,7 +24,7 @@ export class LoginComponent {
     public nav: NavbarService,
     public authService: AuthenticationService
   ) {}
-
+ 
   ngOnInit() {
     this.nav.hide();
     this.authService.logout();

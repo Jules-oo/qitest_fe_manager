@@ -4,7 +4,7 @@ import { Subscription } from "rxjs";
 import { environment } from '../../environments/environment';
 import { NavbarService } from '../_services/navbar.service';
 import { QuizService } from '../services/quiz.service';
-import { AuthenticationService } from '../_services/authentication.serivce';
+import { AuthenticationService } from '../_services/authentication.service';
 import { DialogsService } from '../_services/confirmdialog.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';

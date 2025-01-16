@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { QuizService } from '../services/quiz.service';
 import { NavbarService } from '../_services/navbar.service';
 import { HttpClient } from '@angular/common/http';
-import { AuthenticationService } from '../_services/authentication.serivce';
+import { AuthenticationService } from '../_services/authentication.service';
 import { DialogsService } from '../_services/confirmdialog.service';
 import { Search } from '../models/search';
 import { environment } from '../../environments/environment';
