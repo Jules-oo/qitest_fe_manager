@@ -17,7 +17,7 @@
             <p style="color:#3D383C;font-size: 18px;font-weight: bold;margin-top:20px;">LISTA UTENTI</p>
         </div>
 
-        <table class="table-details">
+        <!-- <table class="table-details">
             <thead>
                 <tr>
                     <th class="header-table">NOME</th>
@@ -43,8 +43,48 @@
                 </tr>
             </tbody>
 
-        </table>
+        </table> -->
 
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+            <!-- Colonna Nome -->
+            <ng-container matColumnDef="nome">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
+              <td mat-cell *matCellDef="let user"> {{ user.firstName }} </td>
+            </ng-container>
+        
+            <!-- Colonna Cognome -->
+            <ng-container matColumnDef="cognome">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Cognome </th>
+              <td mat-cell *matCellDef="let user"> {{ user.lastName }} </td>
+            </ng-container>
+
+            <!-- Colonna Username / Email -->
+            <ng-container matColumnDef="username">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Username / Email </th>
+                <td mat-cell *matCellDef="let user"> {{ user.username }} </td>
+              </ng-container>
+
+              <!-- Colonna Profilo -->
+             <ng-container matColumnDef="profilo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Username / Email </th>
+                <td mat-cell *matCellDef="let user"> {{ user.emailUser }} </td>
+              </ng-container> 
+        
+            <!-- Colonna Azioni -->
+            <ng-container matColumnDef="azioni">
+            
+                <th mat-header-cell *matHeaderCellDef> Azioni </th>
+                <td mat-cell *matCellDef="let user">
+                  <!-- <button mat-raised-button (click)="eliminaUtente(element.id)">Elimina</button> -->
+                </td>
+            </ng-container>
+        
+            <!-- Riga intestazione -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <!-- Riga dati -->
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
     </div>
 

@@ -5,6 +5,7 @@ import { AuthenticationService } from '../_services/authentication.serivce';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-login',

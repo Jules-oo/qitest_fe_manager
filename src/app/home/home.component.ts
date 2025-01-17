@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { User } from '../_models/user';
 import { Router } from '@angular/router';
 import { UserService } from '../_services/user.service';
@@ -11,11 +11,16 @@ import { environment } from '../../environments/environment';
 import { Question } from '../models/question';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-home',
-  providers: [UserService, AuthenticationService, HttpClient, DialogsService, NavbarService],
-  imports: [CommonModule, FormsModule],
+  providers: [UserService, AuthenticationService, HttpClient, DialogsService, NavbarService, provideAnimations()],
+  imports: [CommonModule, FormsModule, MatTableModule, MatSortModule, MatPaginatorModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -34,37 +39,44 @@ export class HomeComponent implements OnInit{
   risultatiTest: any;
   showResultTest!: boolean;
   search: any;
+
+  dataSource = new MatTableDataSource<User>();
+  displayedColumns: string[] = ['nome', 'cognome', 'username', 'profilo', 'azioni'];
+  
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
   
   constructor(
     private router: Router,
     public authService: AuthenticationService,
     public nav: NavbarService,
     private http: HttpClient,
-    private dialogsService: DialogsService
+    private dialogsService: DialogsService,
+    public userService: UserService
   ) { }
 
   ngOnInit(): void {
     this.nav.show();
-    this.initialize();
+    this.getListaUtenti();
     this.showUserList = true;
     this.showResultTest = false;
     this.search = new Search("");
   }
 
-  initialize() {
-    this.getListaUtenti();
+
+  ngAfterViewInit(): void{
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   getListaUtenti() {
-    this.user = JSON.parse(sessionStorage.getItem('currentUser') || '{}').username;
-    this.http.post<{ listaUtenti: any[] }>(`${environment.baseUrl}/user/getListaUtenti`, { username: this.user }).subscribe({
-      next: (response) => {
-        console.log(response);
-        this.listaUtenti = response.listaUtenti || [];
-      },
-      error: (error) => {
-        this.listaUtenti = [];
-        console.error(error);
+    console.log("step 1")
+    this.userService.getUsers().subscribe({
+      next: async (newListUtenti: User[]) => {
+        console.log("step 2")
+        this.listaUtenti = newListUtenti.sort((a, b) => a.username.localeCompare(b.username));
+        this.dataSource.data = this.listaUtenti;
+        console.log('Lista utenti ordinata:', this.dataSource.data);
       }
     });
   }
